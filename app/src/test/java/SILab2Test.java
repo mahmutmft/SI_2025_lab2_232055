@@ -5,82 +5,46 @@ import java.util.ArrayList;
 
 public class SILab2Test {
 
-    // Every Statement
     @Test
-    void testEmptyItemsList() {
-        List<Item> items = List.of();
-        double result = SILab2.checkCart(items, "1234567890123456");
-        assertEquals(0.0, result);
-    }
+    void testEveryStatement() {
+        List<Item> emptyItems = List.of();
+        assertEquals(0.0, SILab2.checkCart(emptyItems, "1234567890123456"));
 
-    @Test
-    void testName() {
-        List<Item> items = List.of(new Item("coconut", 1, 100, 0.0));
-        double result = SILab2.checkCart(items, "1234567890123456");
-        assertEquals(100, result);
-    }
+        List<Item> validName = List.of(new Item("coconut", 1, 100, 0.0));
+        assertEquals(100.0, SILab2.checkCart(validName, "1234567890123456"));
 
-    @Test
-    void testPrice() {
-        List<Item> items = List.of(new Item("coconut", 1, 300, 0.0));
-        double result = SILab2.checkCart(items, "1234567890123456");
-        assertEquals(300.0, result);
-    }
+        List<Item> price300 = List.of(new Item("coconut", 1, 300, 0.0));
+        assertEquals(300.0, SILab2.checkCart(price300, "1234567890123456"));
 
-    @Test
-    void testDiscount() {
-        List<Item> items = List.of(new Item("coconut", 2, 200, 0.1));
-        double result = SILab2.checkCart(items, "1234567890123456");
-        assertEquals(330, result);
-    }
+        List<Item> discount = List.of(new Item("coconut", 2, 200, 0.1));
+        assertEquals(330.0, SILab2.checkCart(discount, "1234567890123456"));
 
-    @Test
-    void testNoDiscount() {
-        List<Item> items = List.of(new Item("coconut", 1, 100, 0.0));
-        double result = SILab2.checkCart(items, "1234567890123456");
-        assertEquals(100.0, result);
-    }
+        List<Item> noDiscount = List.of(new Item("coconut", 1, 100, 0.0));
+        assertEquals(100.0, SILab2.checkCart(noDiscount, "1234567890123456"));
 
-    @Test
-    void testCard() {
-        List<Item> items = List.of(new Item("coconut", 1, 100, 0.0));
-        RuntimeException error = assertThrows(RuntimeException.class, ()->{
-            SILab2.checkCart(items,"1234а567890123456");
+        List<Item> invalidCardChar = List.of(new Item("coconut", 1, 100, 0.0));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            SILab2.checkCart(invalidCardChar, "1234а567890123456");
         });
-        assertEquals("Invalid card number!", error.getMessage());
-    }
-
-    // Multiple Condition
-    @Test
-    void testAll() {
-        List<Item> items = new ArrayList<>();
-        items.add(new Item("coconut", 5, 300, 0.0));
-        double result = SILab2.checkCart(items, "1234567890123456");
-        assertEquals(1500, result);
+        assertEquals("Invalid card number!", exception.getMessage());
     }
 
     @Test
-    void testLast() {
-        List<Item> items = new ArrayList<>();
-        items.add(new Item("coconut", 15, 100, 0.0));
-        double result = SILab2.checkCart(items, "1234567890123456");
-        assertEquals(1470, result);
-    }
+    void testMultipleCondition() {
+        List<Item> item1 = new ArrayList<>();
+        item1.add(new Item("coconut", 5, 300, 0.0));
+        assertEquals(1500.0, SILab2.checkCart(item1, "1234567890123456"));
 
-    @Test
-    void testSecond() {
-        List<Item> items = new ArrayList<>();
-        items.add(new Item("coconut", 5, 200, 0.1));
-        double result = SILab2.checkCart(items, "1234567890123456");
-        assertEquals(870, result);
-    }
+        List<Item> item2 = new ArrayList<>();
+        item2.add(new Item("coconut", 15, 100, 0.0));
+        assertEquals(1470.0, SILab2.checkCart(item2, "1234567890123456"));
 
-    @Test
-    void testFirst() {
-        List<Item> items = new ArrayList<>();
-        items.add(new Item("coconut", 5, 350, 0.0));
-        double result = SILab2.checkCart(items, "1234567890123456");
-        assertEquals(1720, result);
+        List<Item> item3 = new ArrayList<>();
+        item3.add(new Item("coconut", 5, 200, 0.1));
+        assertEquals(870.0, SILab2.checkCart(item3, "1234567890123456"));
+
+        List<Item> item4 = new ArrayList<>();
+        item4.add(new Item("coconut", 5, 350, 0.0));
+        assertEquals(1720.0, SILab2.checkCart(item4, "1234567890123456"));
     }
 }
-
